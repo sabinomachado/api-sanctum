@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Auth\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\NewsResource;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Repositories\NewsRepository;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class NewsController extends Controller
 {
@@ -17,10 +20,10 @@ class NewsController extends Controller
         $this->newsRepository = $newsRepository;
     }
 
-    public function index(): JsonResponse
+    public function index(): ResourceCollection
     {
         $news = $this->newsRepository->getAll();
-        return response()->json(['n ews' => $news]);
+        return NewsResource::collection($news);
     }
 
     public function store(Request $request): JsonResponse
