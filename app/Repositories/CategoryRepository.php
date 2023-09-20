@@ -10,5 +10,4 @@ class CategoryRepository extends EloquentCrudRepository implements ModelReposito
     {
         parent::__construct($model);
     }
-
 }

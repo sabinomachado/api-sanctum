@@ -20,7 +20,7 @@ class NewsController extends Controller
     public function index(): JsonResponse
     {
         $news = $this->newsRepository->getAll();
-        return response()->json($news);
+        return response()->json(['n ews' => $news]);
     }
 
     public function store(Request $request): JsonResponse

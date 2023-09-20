@@ -12,6 +12,4 @@ class NewsRepository extends EloquentCrudRepository implements ModelRepositoryIn
     }
 
 
-
-
 }

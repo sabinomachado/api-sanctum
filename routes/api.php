@@ -25,3 +25,5 @@ Route::prefix('auth')->group(function (){
 });
 
 Route::apiResource('/news', \App\Http\Controllers\Auth\Api\NewsController::class);
+
+Route::apiResource('/categories', \App\Http\Controllers\Auth\Api\CategoryController::class);
