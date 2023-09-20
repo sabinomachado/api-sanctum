@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use App\Models\User;
 
-class UserRepository extends EloquentCrudRepository implements ModelRepository
+class UserRepository extends EloquentCrudRepository implements ModelRepositoryInterface
 {
     public function __construct(User $model)
     {

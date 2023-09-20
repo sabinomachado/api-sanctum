@@ -23,3 +23,5 @@ Route::prefix('auth')->group(function (){
     Route::post('logout', 'App\Http\Controllers\AuthController@logout');
     route::post('register', 'App\Http\Controllers\Auth\Api\RegisterController@register');
 });
+
+Route::apiResource('/news', \App\Http\Controllers\Auth\Api\NewsController::class);

@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
 
-class EloquentCrudRepository implements CrudRepository
+class EloquentCrudRepository implements CrudRepositoryInterface
 {
     protected $model;
 

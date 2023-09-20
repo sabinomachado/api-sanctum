@@ -1,9 +1,9 @@
 <?php
-// app/Repositories/CrudRepository.php
+// app/Repositories/CrudRepositoryInterface.php
 
 namespace App\Repositories;
 
-interface CrudRepository
+interface CrudRepositoryInterface
 {
     public function create(array $data);
 

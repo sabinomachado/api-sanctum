@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-interface ModelRepository extends CrudRepository
+interface ModelRepositoryInterface extends CrudRepositoryInterface
 {
     // Adicione métodos específicos do modelo, se necessário.
 }
