@@ -12,18 +12,21 @@ class AuthController extends Controller
 {
     public function login(LoginRequest $request){
         try{
-            $credentials = $request->validated();
 
-            $token = Auth::attempt($credentials);
-            //dd($credentials);
+            $credentials = $request->validate([
+                'email' => ['required', 'email'],
+                'password' => ['required'],
+            ]);
 
-            if (!$token = auth()->attempt($credentials)) {
-                return response()->json(['error' => 'Unauthorized'], 401);
+            if (Auth::attempt($credentials)) {
+                $token = $request->bearerToken();
+                dd($token);
+                //return response()->json(['ok' => $e->getMessage()], 500);
             }
 
-            $token = auth()->user()->createToken('authToken')->plainTextToken;
-
-            return response()->json(['token' => $token], status: 200);
+            return back()->withErrors([
+                'email' => 'The provided credentials do not match our records.',
+            ])->onlyInput('email');
         }catch (\Exception $e){
             return response()->json(['error' => $e->getMessage()], 500);
         }
