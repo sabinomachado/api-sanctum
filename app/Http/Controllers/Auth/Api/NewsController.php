@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Auth\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\NewsCreateRequest;
+use App\Http\Requests\NewsUpdateRequest;
 use App\Http\Resources\NewsResource;
-use Illuminate\Database\Eloquent\Collection;
+use http\Env\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Repositories\NewsRepository;
@@ -22,46 +24,57 @@ class NewsController extends Controller
 
     public function index(): ResourceCollection
     {
-        $news = $this->newsRepository->getAll();
-        return NewsResource::collection($news);
+        try {
+            $news = $this->newsRepository->getAll();
+            return NewsResource::collection($news);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Erro ao buscar notícias'], 500);
+        }
+
     }
 
-    public function store(Request $request): JsonResponse
+    public function store(NewsCreateRequest $request): JsonResponse
     {
-        $data = $request->validate([
-            'title' => 'required|string',
-            'content' => 'required|string',
-        ]);
-
-        $news = $this->newsRepository->create($data);
-        return response()->json($news, 201);
+        try{
+            $data = $request->validated();
+            $news = $this->newsRepository->create($data);
+            return Response()->json($news, 201);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Erro ao criar notícia'], 500);
+        }
     }
 
     public function show($id): JsonResponse
     {
-        $news = $this->newsRepository->getById($id);
+        try {
+            $news = $this->newsRepository->getById($id);
 
-        if (!$news) {
-            return response()->json(['message' => 'Notícia não encontrada'], 404);
+            if (!$news) {
+                return response()->json(['message' => 'Notícia não encontrada'], 404);
+            }
+
+            return response()->json($news);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Erro ao buscar notícia'], 500);
         }
-
-        return response()->json($news);
     }
 
-    public function update(Request $request, $id): JsonResponse
+    public function update(NewsUpdateRequest $request, $id): JsonResponse
     {
-        $data = $request->validate([
-            'title' => 'string',
-            'content' => 'string',
-        ]);
+        try {
+            $data = $request->validated();
 
-        $news = $this->newsRepository->update($id, $data);
+            $news = $this->newsRepository->update($id, $data);
 
-        if (!$news) {
-            return response()->json(['message' => 'Notícia não encontrada'], 404);
+            if (!$news) {
+                return response()->json(['message' => 'Notícia não encontrada'], 404);
+            }
+
+            return response()->json($news);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Erro ao atualizar notícia'], 500);
         }
 
-        return response()->json($news);
     }
 
     public function destroy($id): JsonResponse
