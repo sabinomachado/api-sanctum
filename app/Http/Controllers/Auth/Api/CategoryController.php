@@ -87,6 +87,13 @@ class CategoryController extends Controller
         }
 
        try{
+           $category = $this->categoryRepository->getById($id);
+
+            if($category->news()->count() > 0){
+                return response()->json(['message' => 'Categoria não pode ser removida,
+                pois possui notícias vinculadas'],403);
+            }
+
            $category = $this->categoryRepository->delete($id);
 
            if (!$category) {

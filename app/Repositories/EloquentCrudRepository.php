@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Model;
 
 class EloquentCrudRepository implements CrudRepository
