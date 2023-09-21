@@ -22,7 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'nivel_id'
+        'nivel_id',
     ];
 
     /**
@@ -51,5 +51,9 @@ class User extends Authenticatable
     public function getAuthTokenAttribute()
     {
         return $this->createToken('authToken')->plainTextToken;
+    }
+    public function getNivelUser()
+    {
+        return $this->belongsTo(Nivel::class, 'nivel_id', 'id');
     }
 }

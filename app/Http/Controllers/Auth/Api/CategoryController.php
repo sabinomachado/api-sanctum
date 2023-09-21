@@ -7,9 +7,11 @@ use App\Http\Requests\CategoryCreateRequest;
 use App\Http\Requests\CategoryUpdateRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
+use App\Policies\CategoryPolicy;
 use App\Repositories\CategoryRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 
 class CategoryController extends Controller
@@ -21,7 +23,7 @@ class CategoryController extends Controller
         $this->categoryRepository = $categoryRepository;
     }
 
-    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function index()
     {
         try {
             $categories = $this->categoryRepository->getAll();
@@ -80,6 +82,10 @@ class CategoryController extends Controller
 
     public function destroy($id): JsonResponse
     {
+        if (auth()->user()->cannot('delete', Category::class)) {
+            return response()->json(['message' => 'Permissão negada'], 403);
+        }
+
        try{
            $category = $this->categoryRepository->delete($id);
 

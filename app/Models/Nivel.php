@@ -21,4 +21,9 @@ class Nivel extends Model
         'created_at' => 'timestamp',
         'updated_at' => 'timestamp',
     ];
+
+    public function user()
+    {
+        return $this->hasMany(User::class);
+    }
 }
