@@ -24,12 +24,10 @@ class NewsController extends Controller
 
     public function index(): ResourceCollection
     {
-        try {
+
             $news = $this->newsRepository->getAll();
             return NewsResource::collection($news);
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Erro ao buscar notícias'], 500);
-        }
+
 
     }
 

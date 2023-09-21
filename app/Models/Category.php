@@ -20,4 +20,10 @@ class Category extends Model
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime',
     ];
+
+    public function news()
+    {
+        return $this->hasMany(News::class);
+    }
+
 }

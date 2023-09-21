@@ -18,6 +18,14 @@ class NewsResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'content' => $this->content,
+            'category' => $this->category->name,
+        ];
+    }
+
+    public function error(): array
+    {
+        return [
+            'message' => 'Erro ao buscar notícias'
         ];
     }
 }
