@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\Auth\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CategoryCreateRequest;
+use App\Http\Requests\CategoryUpdateRequest;
 use App\Http\Resources\CategoryResource;
+use App\Models\Category;
 use App\Repositories\CategoryRepository;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 
@@ -23,67 +27,67 @@ class CategoryController extends Controller
         return CategoryResource::collection($categories);
     }
 
-    public function store(Request $request):  \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function store(CategoryCreateRequest $request):  JsonResponse
     {
-        dd("chegou!");
-        $data = $request->validate([
-            'name' => 'required|string',
-        ]);
+        try{
+            $data = $request->validated();
 
-        $category = $this->categoryRepository->create($data);
-        return CategoryResource::collection($category);
-    }
-
-    public function show($id):  \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-    {
-        $category = $this->categoryRepository->getById($id);
-
-        if (!$category) {
-            return response()->json(['message' => 'Categoria não encontrada'], 404);
+            $category = $this->categoryRepository->create($data);
+            return response()->json($category, 201);
+        }catch (\Exception $e){
+            return response()->json(['message' => 'Erro ao criar categoria'], 500);
         }
 
-        return CategoryResource::collection($category);
     }
 
-    public function update(Request $request, $id): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function show($id):  JsonResponse
     {
-        $data = $request->validate([
-            'name' => 'string',
-        ]);
+       try{
+           $category = $this->categoryRepository->getById($id);
 
-        $category = $this->categoryRepository->update($id, $data);
+           if (!$category) {
+               return response()->json(['message' => 'Categoria não encontrada'], 404);
+           }
 
-        if (!$category) {
-            return response()->json(['message' => 'Categoria não encontrada'], 404);
+           return response()->json($category);
+       }catch (\Exception $e){
+           return response()->json(['message' => 'Erro ao buscar categoria'], 500);
+       }
+
+    }
+
+    public function update(CategoryUpdateRequest $request, $id): JsonResponse
+    {
+        try{
+            $data = $request->validated();
+
+            $category = $this->categoryRepository->update($id, $data);
+
+            if (!$category) {
+                return response()->json(['message' => 'Categoria não encontrada'], 404);
+            }
+
+            return response()->json($category);
+        }catch (\Exception $e){
+            return response()->json(['message' => 'Erro ao atualizar categoria'], 500);
         }
 
-        return CategoryResource::collection($category);
     }
 
     public function destroy($id): JsonResponse
     {
-        $category = $this->categoryRepository->delete($id);
+       try{
+           $category = $this->categoryRepository->delete($id);
 
-        if (!$category) {
-            return response()->json(['message' => 'Categoria não encontrada'], 404);
-        }
+           if (!$category) {
+               return response()->json(['message' => 'Categoria não encontrada'], 404);
+           }
 
-        return response()->json(['message' => 'Categoria removida com sucesso']);
+           return response()->json(['message' => 'Categoria removida com sucesso']);
+       }catch (\Exception $e){
+           return response()->json(['message' => 'Erro ao remover categoria'], 500);
+       }
+
     }
-
-    public function news($id): ResourceCollection
-    {
-        $category = $this->categoryRepository->getById($id);
-
-        if (!$category) {
-            return response()->json(['message' => 'Categoria não encontrada'], 404);
-        }
-
-        $news = $category->news;
-        return NewsResource::collection($news);
-    }
-
-
-
 
 }
