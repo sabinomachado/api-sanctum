@@ -8,6 +8,7 @@ use App\Repositories\EloquentCrudRepository;
 use App\Repositories\ModelRepositoryInterface;
 use App\Repositories\NewsRepository;
 use App\Repositories\UserRepository;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -28,5 +29,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Password::defaults(function (){
+           return Password::min(8)->letters()
+               ->mixedCase()
+               ->numbers()
+               ->symbols();
+        });
     }
 }
