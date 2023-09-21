@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // chamar o Seeder de Usuário, que por sua vez chama o Seeder de Categoria
+         $this->call(NivelSeeder::class);
          $this->call(UserSeeder::class);
          $this->call(CategorySeeder::class);
          $this->call(NewsSeeder::class);
