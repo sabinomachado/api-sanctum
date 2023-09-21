@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth\Api\Auth;
 
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
@@ -10,9 +11,12 @@ use App\Models\User;
 class AuthController extends Controller
 {
     public function login(LoginRequest $request){
-        //dd("chegou aqui!");
         try{
             $credentials = $request->validated();
+
+            $token = Auth::attempt($credentials);
+            //dd($credentials);
+
             if (!$token = auth()->attempt($credentials)) {
                 return response()->json(['error' => 'Unauthorized'], 401);
             }
@@ -53,4 +57,6 @@ class AuthController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
+
 }

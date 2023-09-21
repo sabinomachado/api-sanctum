@@ -22,6 +22,7 @@ Route::prefix('auth')->group(function (){
     Route::post('login', 'App\Http\Controllers\Auth\Api\Auth\AuthController@login');
     Route::post('logout', 'App\Http\Controllers\Auth\Api\Auth\AuthController@logout');
     route::post('register', 'App\Http\Controllers\Auth\Api\Auth\AuthController@register');
+    route::get('user', 'App\Http\Controllers\Auth\Api\Auth\AuthController@user')->middleware('auth:sanctum');
 });
 
 Route::apiResource('/news', \App\Http\Controllers\Auth\Api\NewsController::class)

@@ -17,9 +17,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(abstract: NewsRepository::class, concrete: ModelRepositoryInterface::class);
-        $this->app->bind(abstract: UserRepository::class, concrete: ModelRepositoryInterface::class);
-        $this->app->bind(abstract: CategoryRepository::class, concrete: ModelRepositoryInterface::class);
+        $this->app->bind(abstract: ModelRepositoryInterface::class, concrete: NewsRepository::class);
+        $this->app->bind(abstract: ModelRepositoryInterface::class, concrete: UserRepository::class);
+        $this->app->bind(abstract: ModelRepositoryInterface::class, concrete: CategoryRepository::class);
         $this->app->bind(EloquentCrudRepository::class, CrudRepository::class);
     }
 
