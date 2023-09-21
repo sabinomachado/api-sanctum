@@ -23,8 +23,12 @@ class CategoryController extends Controller
 
     public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
-        $categories = $this->categoryRepository->getAll();
-        return CategoryResource::collection($categories);
+        try {
+            $categories = $this->categoryRepository->getAll();
+            return CategoryResource::collection($categories);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Erro ao buscar categorias'], 500);
+        }
     }
 
     public function store(CategoryCreateRequest $request):  JsonResponse
