@@ -19,11 +19,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::prefix('auth')->group(function (){
-    Route::post('login', 'App\Http\Controllers\Auth\Api\LoginController@login');
-    Route::post('logout', 'App\Http\Controllers\AuthController@logout');
-    route::post('register', 'App\Http\Controllers\Auth\Api\RegisterController@register');
+    Route::post('login', 'App\Http\Controllers\Auth\Api\Auth\AuthController@login');
+    Route::post('logout', 'App\Http\Controllers\Auth\Api\Auth\AuthController@logout');
+    route::post('register', 'App\Http\Controllers\Auth\Api\Auth\AuthController@register');
 });
 
-Route::apiResource('/news', \App\Http\Controllers\Auth\Api\NewsController::class);
+Route::apiResource('/news', \App\Http\Controllers\Auth\Api\NewsController::class)
+    ->middleware('auth:sanctum');
 
-Route::apiResource('/categories', \App\Http\Controllers\Auth\Api\CategoryController::class);
+Route::apiResource('/categories', \App\Http\Controllers\Auth\Api\CategoryController::class)
+    ->middleware('auth:sanctum');
