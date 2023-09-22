@@ -8,8 +8,8 @@ use App\Repositories\EloquentCrudRepository;
 use App\Repositories\ModelRepositoryInterface;
 use App\Repositories\NewsRepository;
 use App\Repositories\UserRepository;
-use Illuminate\Support\Facades\Password;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Validation\Rules\Password;
 
 class AppServiceProvider extends ServiceProvider
 {
